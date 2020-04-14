@@ -1,7 +1,7 @@
 import React from 'react'
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, } from 'react-native';
 import { ListItem } from 'react-native-elements'
-import { useNavigation } from '@react-navigation/native'
+
 
 
 
@@ -12,30 +12,20 @@ class SupportQuestion extends React.Component{
     this.state
   }
 
-  
- 
     render() {
+
+      console.log('SUPPORT QUESTION PROPS = ',this.props)
       
-      console.log('SupportQuestionProps',this.props)
         return(
-          <TouchableOpacity
-           style={styles.touchable_container}
-           onPress={()=>{this.props.navigation.actions.navigate("SupportReponse")}}>
-           <View style={styles.main_container}>
-             
+           <View style={styles.main_container}> 
              <ListItem style= {styles.list_item_container}
                     title="Support"
                     bottomDivider
                     topDivider
                     chevron
-                    rightTitle= "Bardage acier" 
-                    
+                    rightTitle= "la réponse"        
             />
-
            </View>
-           </TouchableOpacity>
-         
-
         )
     }
 }
@@ -43,15 +33,7 @@ class SupportQuestion extends React.Component{
 export default ( SupportQuestion )
 
 const styles = StyleSheet.create ({
-    touchable_container:{
-      flex: 1,
-    },
-    scrollview_container:{
-      flex: 1,  
-      margin: 50,
-    },
     main_container: {  
-      
       backgroundColor: '#fff',
       alignItems: 'center',
       justifyContent: 'center',

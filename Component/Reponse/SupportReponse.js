@@ -1,30 +1,18 @@
 import React from 'react';
-import { StyleSheet, Text, View, ScrollView, TextInput, KeyboardAvoidingView, TouchableHighlight } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TextInput, KeyboardAvoidingView, TouchableHighlight, TouchableOpacity } from 'react-native';
 import {  CheckBox } from 'react-native-elements';
+import { connect } from 'react-redux'
+// import { TouchableOpacity } from 'react-native-gesture-handler';
 
-class Selected_Items_Array {
-  constructor() {
-    selectedItemsArray = [];
-  }
-
-  pushItem(option) {
-    selectedItemsArray.push(option);
-  }
-
-  getArray() {
-    return selectedItemsArray;
-  }
-}
 
 
 class SupportReponse extends React.Component{ 
   constructor(props){
     super(props);
-    Selected_Items_Array
     this.state = {
-      CheckBox,
       checked:null,
-      list:[
+      support: undefined,
+      supportlist:[
         {title:'Structure Acier', id:'1'},
         {title:'Bardage Bois', id:'2'}, 
         {title:'Structure Bois',id:'3'},
@@ -39,73 +27,56 @@ class SupportReponse extends React.Component{
       ]
     }
   }
-  handleClick = (index) => () => {
-    const { list } = this.state;
+
+    _toggleReponse(){
+      console.log("clik sur un support")
+      const action = { type: "TOGGLE_SUPPORT", value: this.state}
+      this.props.dispatch(action)
+    }
+
+
+
+    handleClick = (index) => () => {
+      const { supportlist } = this.state;
+      supportlist[index].checked = !this.state.supportlist[index].checked
+      this.setState({ supportlist })
+      
+    }
+
+    componentDidUpdate(){
+      console.log("Mes supports sélectionnés ======>", this.props.supportType)
+    }
+
     
-    list[index].checked = !this.state.list[index].checked
-    this.setState({ list })
-  }
-
-  componentMount() {
-
-    if (this.props.checked) {
-      this.setState({ checked: true }, () => {
-        this.props.selectedArrayObject.pushItem({
-          'key': this.props.keyValue,
-          'label': this.props.label,
-          'value': this.props.value
-        });
-      });
-    }
-    else {
-      this.setState({ checked: false });
-    }
-  }
-
-  toggleState(key, label, value) {
-    this.setState({ checked: !this.state.checked }, () => {
-      if (this.state.checked) {
-        this.props.selectedArrayObject.pushItem({ 'key': key, 'label': label, 'value': value });
-      }
-      else {
-        this.props.selectedArrayObject.getArray().splice(this.props.selectedArrayObject.getArray().findIndex(x => x.key == key), 1);
-      }
-    });
-  }
+    
 
 
-
+  
 
     render(){
+       console.log("SUPPORT REPONSE PROPS" , this.props)
+       console.log("SUPPORT REPONSE STATE" ,this.state)
+      
       
         return(
-            <KeyboardAvoidingView behavior='padding' keyboardVerticalOffset='90'  >
-            <ScrollView>
-                {/* <ListItem style= {styles.ListItem}
-                    checkBox
-                    title="Bardage acier"
-                    bottomDivider
-                    topDivider
-                    leftIcon={{}}/> */}
-
-                <View style={styles.Item}>
-                    <CheckBox style={styles.CheckBox}
-                    KeyValue={1} label='Bardage Acier' value="Bardage Acier"
-                    onPress={this.toggleState.bind(this, this.props.keyValue, this.props.label, this.props.value)} />
-                    <Text style={styles.checkBoxText}>Bardage Acier</Text>
-                </View>    
+            <KeyboardAvoidingView behavior='' keyboardVerticalOffset='0'   >
+            <ScrollView >
+              
                 {
-                  this.state.list.map((item, i) => (
-                    <View key={item.id} style={styles.Item}>
+                  this.state.supportlist.map((item, i) => (
+                    <TouchableOpacity key={item.id} style={styles.Item} onPress={this._toggleReponse}>
+                    
                     <CheckBox
                       style= {styles.CheckBox}
                       checked={item.checked}
                       onPress={this.handleClick(i)}
                     />
+                    
                     <Text  style={styles.checkBoxText}>{item.title}</Text>
-                    </View>   
+                    </TouchableOpacity>   
                   ))
                 } 
+             
                 <View style={styles.Item}>
                     <CheckBox style={styles.CheckBox}/>
                     <TextInput 
@@ -143,11 +114,22 @@ class SupportReponse extends React.Component{
     }
 }
 
-export default(SupportReponse)
+const mapDispatchToProps = (dispatch) => {
+  return {
+    dispatch: (action) => { dispatch(action) }
+  }
+}
+
+const mapStateToProps = (state) => {
+  return 
+    supportType : state.supportType
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(SupportReponse)
 
 const styles = StyleSheet.create({
     container: {
-      flex: 1,
+      
       backgroundColor: '#fff',
       alignItems: 'center',
       justifyContent: 'center',
@@ -166,11 +148,9 @@ const styles = StyleSheet.create({
       alignItems:'center',
       borderColor:'#929496',
       borderTopWidth:1,
-      borderEndWidth:1,
-      
+      borderEndWidth:1,   
     },
-    selectedItemsButton:
-    {
+    selectedItemsButton:{
       width:300,
       height:40,
       borderRadius:5,
@@ -178,18 +158,12 @@ const styles = StyleSheet.create({
       backgroundColor: '#AF1E2D',
       marginBottom:10 
     },
-
-    selectedItemsButton_Text:
-    {flex:1,
+    selectedItemsButton_Text:{
+      flex:1,
       color: 'white',
       textAlign: 'center',
       alignSelf: 'stretch',
       fontSize: 20,
       textAlignVertical:'center'
     },
-    CheckBox:{
-   
-    }
-    
-
   });

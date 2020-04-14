@@ -4,52 +4,42 @@ import { ListItem } from 'react-native-elements'
 
 import SupportQuestion from './Question/SupportQuestion'
 import EtatGeneralQuestion from './Question/EtatGeneralQuestion'
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
 class SimpleFace extends React.Component{
   constructor(props){
     super(props)
+    state = {}
   }  
-    _goToSupportReponse = (navigation)=>{
-      this.props.navigation.actions.navigate("SuppportReponse", {navigation:navigation} )
-      
-    }
+
 
 
     render() {
+
+      // console.log("SIMPLE FACE PROPS =", this.props)
       
-      
-      console.log("SimpleFacePros =", this.props.navigation.actions.navigate)
+        
         return(
            
            <View style={styles.main_container}>
              
-              <SupportQuestion goToSupportReponse = {this._goToSupportReponse} />
-
-
-              <ListItem style= {styles.list_item_container}
-                    title="TEST"
-                    bottomDivider
-                    topDivider
-                    chevron
-                    onPress
-                    onPress={()=>{this.props.navigation.navigate("SupportReponse")}}
-              />
-             
-             
-                  
-      
-             
-             
-             
-             
-             
-             
             
-             
-             
-             
-       
+              <TouchableOpacity 
+                style = {styles.TouchableOpacity}
+                onPress={() => this.props.navigation.navigate('SupportReponse')}
+              > 
+                  <SupportQuestion/>
+              </TouchableOpacity>
+
+              <TouchableOpacity 
+                style = {styles.TouchableOpacity}
+                onPress={() => this.props.navigation.navigate('SupportReponse')}
+              > 
+                  <EtatGeneralQuestion/>
+              </TouchableOpacity>
+
+
 
            </View>
            
@@ -61,21 +51,17 @@ class SimpleFace extends React.Component{
 export default ( SimpleFace )
 
 const styles = StyleSheet.create ({
-    scrollview_container:{
-      flex: 1,  
+    TouchableOpacity:{ 
+      backgroundColor: '#fff',
+      alignItems: 'center',
+      justifyContent: 'center',
+      width:"100%",
     },
-    main_container: {  
-      flex:1,
+    main_container: {   
       backgroundColor: '#fff',
       alignItems: 'center',
       justifyContent: 'center',
       width:"100%",
     },  
-    list_item_container: {
-      flex:1,
-      backgroundColor: '#fff',
-      alignItems: 'center',
-      justifyContent: 'center',
-      width:"100%",
-    }
+    
 })

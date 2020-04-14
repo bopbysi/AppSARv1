@@ -1,8 +1,12 @@
 import React from 'react'
-import { StyleSheet, Text, View, } from 'react-native';
+import { StyleSheet, View, } from 'react-native';
 import { ListItem } from 'react-native-elements'
 
 class EtatGeneralQuestion extends React.Component{
+  constructor(props){
+    super(props)
+    this.state
+  }
 
     render() {
         return(
@@ -14,8 +18,7 @@ class EtatGeneralQuestion extends React.Component{
                     bottomDivider
                     topDivider
                     chevron
-                    onPress={()=>{this.props.navigation.navigate("EtatForm")}}
-                    rightTitle= "azerty" />       
+                    rightTitle= "la réponse" />       
 
            </View>
         
@@ -27,12 +30,7 @@ class EtatGeneralQuestion extends React.Component{
 export default ( EtatGeneralQuestion )
 
 const styles = StyleSheet.create ({
-    scrollview_container:{
-      flex: 1,  
-      margin: 50,
-    },
     main_container: {  
-      flex: 1,
       backgroundColor: '#fff',
       alignItems: 'center',
       justifyContent: 'center',
